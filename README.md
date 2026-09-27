@@ -1,107 +1,241 @@
-reggolyek
+⌨️ reggolyek
+🐧 Linux Keyboard-Event Logging Research Project
+<p align="center"> <b>🔬 Security Research • 🛡️ Defensive Testing • 🐧 Linux</b> </p> <p align="center"> <img src="https://img.shields.io/badge/Platform-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"> <img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&logo=c"> <img src="https://img.shields.io/badge/Focus-Security%20Research-8A2BE2?style=for-the-badge"> <img src="https://img.shields.io/badge/Target-Debian%20Based-A81D33?style=for-the-badge&logo=debian"> </p>
+🌟 About
 
-reggolyek is a Linux-focused keyboard-event logging research project written in C. It is intended for authorized security research, malware analysis, and controlled laboratory environments.
+reggolyek is a Linux-based keyboard-event logging research project written in C.
 
-The project currently targets Linux systems, with a focus on Debian-based distributions, and is divided into two components:
+The project is designed for authorized security research, malware analysis, defensive testing, and isolated laboratory environments.
 
-main.c — Responsible for collecting keyboard events and writing the resulting log data locally.
+Its architecture separates local event logging from network transmission, making the two components easier to study independently.
 
-sender.c — Responsible for transferring an existing log file to a configured research server.
+⚠️ Important: Keyboard logging can expose extremely sensitive information. Use this project only on systems where you have explicit authorization.
 
-Project Structure
+🧩 Project Architecture
+                    ┌─────────────────────┐
+                    │      reggolyek       │
+                    │   Linux Research    │
+                    │       Project       │
+                    └──────────┬──────────┘
+                               │
+                ┌──────────────┴──────────────┐
+                │                             │
+                ▼                             ▼
+       ┌─────────────────┐          ┌─────────────────┐
+       │     main.c      │          │    sender.c     │
+       │                 │          │                 │
+       │ ⌨️ Event Logger │          │ 📡 Log Sender   │
+       │                 │          │                 │
+       │ Local logging   │          │ File transfer   │
+       └────────┬────────┘          └────────┬────────┘
+                │                            │
+                ▼                            ▼
+          📄 Local Log                 🌐 Research
+             File                      Server
+
+📁 Repository Structure
 reggolyek/
-├── main.c       # Keyboard event logger
-├── sender.c     # Log-file transfer component
-└── README.md
+│
+├── 📄 main.c
+│   └── ⌨️ Keyboard-event logging component
+│
+├── 📄 sender.c
+│   └── 📡 Log-file transmission component
+│
+├── 📄 README.md
+│   └── 📚 Project documentation
+│
+└── 📄 LICENSE
+    └── ⚖️ License information
 
-Features
+⚙️ Components
+⌨️ main.c
 
-Written in C.
+The primary logging component.
 
-Designed for Linux environments.
+Responsibilities include:
 
-Intended primarily for Debian-based distributions.
+🐧 Handling Linux keyboard-event input.
 
-Separates keyboard-event collection from network transmission.
+📝 Writing collected event information to a local log.
 
-Stores captured event data in a local log file before transmission.
+🔬 Providing a component that can be analyzed independently during security research.
 
-Can transfer the generated log file to a designated server.
+📡 sender.c
 
-Suitable for controlled malware-analysis and defensive-security research.
+The network-transfer component.
 
-Intended Use
+Responsibilities include:
 
-reggolyek should only be used on systems where you have explicit authorization to monitor keyboard input.
+📄 Reading an existing research log file.
 
-Appropriate use cases include:
+🌐 Sending the file to a designated research server.
 
-Security research in an isolated virtual machine.
+🧪 Providing a separate component for studying network-based detection.
 
-Malware-analysis laboratories.
+🖥️ Supported Environment
+Environment	Status
+🐧 Linux	✅ Supported
+🔴 Debian	✅ Target
+🟠 Ubuntu	✅ Debian-based
+🟣 Linux Mint	✅ Debian/Ubuntu-based
+🟢 Other Debian-based distributions	⚠️ May work
+🪟 Windows	❌ Not supported
+🍎 macOS	❌ Not supported
 
-Detection and incident-response testing.
+Compatibility can depend on the Linux kernel, input subsystem, permissions, and system configuration.
 
-Studying Linux input-event handling.
+🔬 Intended Research Uses
 
-Testing defensive controls that detect unauthorized input monitoring.
+reggolyek can be used in controlled environments for:
 
-Developing and validating security monitoring rules.
+🧪 Malware-analysis laboratories
 
-Do not deploy the software on computers, accounts, or networks without the owner's explicit permission.
+🛡️ Defensive-security research
 
-Components
+🔍 Detection-rule development
+
+📊 Security monitoring experiments
+
+🐧 Linux input-subsystem research
+
+🚨 Testing detection of unauthorized input monitoring
+
+🎓 Educational security experimentation
+
+🔐 Privacy & Safety
+
+Keyboard-event logging can potentially capture:
+
+🔑 Passwords
+💳 Financial information
+📧 Private messages
+🔢 Authentication codes
+📄 Confidential documents
+👤 Personally identifiable information
+
+
+Therefore, research environments should use synthetic test data rather than real credentials or personal information.
+
+🛡️ Recommended precautions
+
+🔒 Use an isolated virtual machine or dedicated test system.
+
+👤 Obtain explicit authorization before monitoring a system.
+
+🧪 Use test accounts and synthetic data.
+
+📁 Treat generated logs as sensitive information.
+
+🗑️ Delete test data after experiments.
+
+🚫 Never deploy the software covertly on systems you do not own or administer.
+
+🧠 Research Architecture
+
+The separation between the two C files provides a simple research architecture:
+
+        ┌───────────────┐
+        │   Linux Input │
+        │     Events    │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │    main.c     │
+        │   ⌨️ Logger   │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │   Local Log   │
+        │      📄       │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │   sender.c    │
+        │   📡 Sender   │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Research/Test │
+        │    Server     │
+        │      🌐       │
+        └───────────────┘
+
+🚀 Development
+
+The project is intentionally divided into small components so researchers can inspect and test each part independently.
+
 main.c
+  │
+  └── Event collection
+          │
+          ▼
+      Local logging
+          │
+          ▼
+      sender.c
+          │
+          └── Network transmission
 
-The logger component is responsible for collecting keyboard-related events and writing them to a local file for research purposes.
 
-Its responsibilities are intentionally separated from network communication so that the logging and transmission portions can be analyzed independently.
+Build and configuration instructions should be adapted to the specific authorized laboratory environment in which the project is being tested.
 
-sender.c
+🧪 Testing Environment
 
-The sender component handles transmission of an already-generated log file to a designated research server.
+For safe experimentation, a recommended setup is:
 
-Keeping this functionality separate makes it easier to test network-monitoring and detection mechanisms independently from the keyboard-event collection component.
+┌──────────────────────────────┐
+│       🧪 Test Machine        │
+│                              │
+│       Debian / Ubuntu        │
+│             │                │
+│             ▼                │
+│        ┌─────────┐           │
+│        │reggolyek│           │
+│        └────┬────┘           │
+│             │                │
+│             ▼                │
+│       Synthetic Data         │
+└─────────────┬────────────────┘
+              │
+              ▼
+       🌐 Isolated Test
+           Server
 
-Platform
 
-The project is intended for:
+Avoid testing with real passwords, authentication tokens, financial information, or other sensitive data.
 
-Linux
+⚖️ Disclaimer
 
-Debian-based distributions
+reggolyek is intended for authorized security research and educational purposes only.
 
-Compatibility may vary depending on the Linux kernel, input subsystem, permissions, and system configuration.
+The user is responsible for obtaining appropriate authorization before deploying or testing the software.
 
-Security and Privacy
+The project should not be used to secretly monitor other people, obtain credentials, invade privacy, or access systems without authorization.
 
-Keyboard logging can expose highly sensitive information, including passwords, authentication codes, private messages, and other confidential data.
+📜 License
 
-For that reason:
+Add your chosen license to the repository:
 
-Use reggolyek only in an isolated or explicitly authorized environment.
+LICENSE
 
-Never collect data from other users without informed authorization.
 
-Avoid using real credentials or personal information during testing.
-
-Protect generated log files as sensitive data.
-
-Remove test logs after completing experiments.
-
-Do not use the project to bypass security controls or obtain unauthorized information.
-
-Research Disclaimer
-
-This project is provided for educational and defensive-security research purposes. The author and contributors are not responsible for unauthorized, illegal, or harmful use of the software.
-
-Before conducting experiments on a system that you do not personally own, obtain explicit authorization from the system owner and define the permitted scope of testing.
-
-License
-
-Add the project's chosen license here, for example:
+For example:
 
 MIT License
 
 
-See the LICENSE file for the complete license terms.
+See the LICENSE file for the complete terms.
+
+<p align="center">
+⌨️ reggolyek
+
+🐧 Linux • 🔬 Research • 🛡️ Security • 📡 Networking
+
+Made for controlled security research environments.
+
+</p>
